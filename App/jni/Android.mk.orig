@@ -1,0 +1,33 @@
+# NDK Makefile
+
+NDK_TOOLCHAIN_ROOT=/android-toolchain
+LOCAL_PATH := $(call my-dir)
+
+#
+## libSoftPixelEngine.so
+#
+include $(CLEAR_VARS)
+LOCAL_MODULE    := libSoftPixelEngine
+LOCAL_SRC_FILES := libSoftPixelEngine.so
+include $(PREBUILT_SHARED_LIBRARY)
+
+#
+## libKikyu.so
+#
+include $(CLEAR_VARS)
+LOCAL_MODULE	:= Kikyu
+LOCAL_SRC_FILES	:= android_native_app_glue.c kikyu.cpp
+LOCAL_ARM_MODE := arm
+LOCAL_CFLAGS := -I$(LOCAL_PATH)/include -I$(NDK_TOOLCHAIN_ROOT)/sysroot/usr/include/boost-1_49
+LOCAL_CPPFLAGS += -fexceptions
+LOCAL_CPPFLAGS += -frtti
+LOCAL_CPPFLAGS += -D_ANDROID
+#LOCAL_LDLIBS := -lGLESv1_CM -ljnigraphics -llog -lSoftPixelEngine
+#LOCAL_LDLIBS := -L. -lSoftPixelEngine -landroid -llog
+LOCAL_LDLIBS := -landroid -llog
+LOCAL_SHARED_LIBRARIES := libSoftPixelEngine
+
+include $(BUILD_SHARED_LIBRARY)
+
+#include $(BUILD_STATIC_LIBRARY)
+#include $(PREBUILT_SHARED_LIBRARY)
